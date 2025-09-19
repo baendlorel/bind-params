@@ -16,22 +16,22 @@ type NParams<
       : Acc
     : Acc;
 
-type Params<Fn extends (...args: any[]) => any> =
-  | []
-  | NParams<Fn, 1>
-  | NParams<Fn, 2>
-  | NParams<Fn, 3>
-  | NParams<Fn, 4>
-  | NParams<Fn, 5>
-  | NParams<Fn, 6>
-  | NParams<Fn, 7>
-  | NParams<Fn, 8>
-  | NParams<Fn, 9>
-  | NParams<Fn, 10>
-  | NParams<Fn, 11>
-  | NParams<Fn, 12>
-  | NParams<Fn, 13>
-  | NParams<Fn, 14>
-  | NParams<Fn, 15>
-  | NParams<Fn, 16>
-  | Parameters<Fn>;
+type MakeArray<N extends number, Result extends any[] = []> = Result['length'] extends N
+  ? Result
+  : MakeArray<N, [...Result, any]>;
+
+type ParamPossibility<
+  Fn extends (...args: any[]) => any,
+  MaxN extends number,
+  Counter extends any[] = [],
+  Result = [],
+> = Counter['length'] extends MaxN
+  ? Result | Parameters<Fn>
+  : ParamPossibility<
+      Fn,
+      MaxN,
+      [...Counter, any],
+      Result | (Counter['length'] extends 0 ? [] : NParams<Fn, Counter['length']>)
+    >;
+
+type Params<Fn extends (...args: any[]) => any> = ParamPossibility<Fn, 17>;

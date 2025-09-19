@@ -2,17 +2,23 @@ import { $define, $max } from './native.js';
 
 /**
  * Creates a new function with bound leading arguments.
- * - new function preserves `name` and `length` properties of the original function.
+ * - preserves `name` and `length`.
+ * - preserves `this` context.
+ * - if 0 arguments are bound, returns the original `fn`.
  * - full type hints are provided.
+ * @param fn the function to bind arguments to
+ * @param bound first N arguments to bind
+ * @returns a new function with bound leading arguments
  *
+ * ## Example
  * ```ts
  * function oldFn(a: number, b: string, c: boolean): void {}
  * const newFn = bindParams(oldFn, 42, 'hello'); // newFn: (c: boolean) => void
  * ```
  *
- * @param fn the function to bind arguments to
- * @param bound first N arguments to bind
- * @returns a new function with bound leading arguments
+ * ## Notes
+ * - trusts `Function.prototype.call` is not modified.
+ * - maximum bound count is **16**, you can modify `index.d.ts` to make it greater.
  *
  * __PKG_INFO__
  */
@@ -21,8 +27,16 @@ export function bindParams<
   Bound extends Params<T> = [],
   Remainder extends any[] = Chop<Parameters<T>, Bound['length']>,
 >(fn: T, ...bound: Bound & Partial<Parameters<T>>): (...args: Remainder) => ReturnType<T> {
-  const newFn = function (...args: any[]) {
-    return fn(...bound, ...args);
+  if (typeof fn !== 'function') {
+    throw new TypeError('First argument must be a function');
+  }
+
+  if (bound.length === 0) {
+    return fn;
+  }
+
+  const newFn = function (this: any, ...args: any[]) {
+    return fn.call(this, ...bound, ...args);
   };
 
   $define(newFn, 'name', { value: fn.name, configurable: true });
