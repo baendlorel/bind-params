@@ -6,6 +6,7 @@ import { bindParams } from '../src/index.js';
 // 1) Simple function
 function f1(a: number, b: string, c: boolean): void {}
 const b1: (b: string, c: boolean) => void = bindParams(f1, 42);
+const b11 = bindParams(f1, 42);
 
 // 2) Bind two args
 const b2: (c: boolean) => void = bindParams(f1, 1, 'x');

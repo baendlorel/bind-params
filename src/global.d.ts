@@ -16,10 +16,6 @@ type NParams<
       : Acc
     : Acc;
 
-type MakeArray<N extends number, Result extends any[] = []> = Result['length'] extends N
-  ? Result
-  : MakeArray<N, [...Result, any]>;
-
 type ParamPossibility<
   Fn extends (...args: any[]) => any,
   MaxN extends number,

@@ -4,7 +4,7 @@ import { $define, $max } from './native.js';
  * Creates a new function with bound leading arguments.
  * - preserves `name` and `length`.
  * - preserves `this` context.
- * - if 0 arguments are bound, returns the original `fn`.
+ * - if 0 argument are bound, returns the original `fn`.
  * - full type hints are provided.
  * @param fn the function to bind arguments to
  * @param bound first N arguments to bind
