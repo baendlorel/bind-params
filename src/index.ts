@@ -2,7 +2,7 @@ import { $define, $max } from './native.js';
 
 /**
  * Creates a new function with bound leading arguments.
- * - preserves `name` and `length`.
+ * - preserves `length`.
  * - preserves `this` context.
  * - if 0 argument are bound, returns the original `fn`.
  * - full type hints are provided.
@@ -39,7 +39,7 @@ export function bindParams<
     return fn.call(this, ...bound, ...args);
   };
 
-  $define(newFn, 'name', { value: fn.name, configurable: true });
+  // $define(newFn, 'name', { value: fn.name, configurable: true });
   $define(newFn, 'length', {
     value: $max(0, fn.length - bound.length),
     configurable: true,

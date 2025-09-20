@@ -7,7 +7,7 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 ## Features
 
 - **Fix Arguments**: Creates a new function with leading arguments bound (like Function.prototype.bind but only for leading params).
-- **Consistency**: Preserves `name`, `length`. And `this` context.
+- **Consistency**: Preserves `length`. And `this` context.
 - **Trival Case**: If 0 argument are bound, the original function is returned unchanged.
 - **Full type hints**: the library is designed for excellent TypeScript ergonomics.
 
@@ -34,7 +34,7 @@ const newFn: (c: boolean) => void = bindParams(original, 42, 'hello');
 
 Behavior details:
 
-- Preserves `name` and `length`.
+- Preserves `length`.
 - Preserves `this` semantics (calls original with `.call`).
 - Returns the original function if 0 argument are bound.
 

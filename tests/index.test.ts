@@ -16,15 +16,14 @@ describe('bindParams - runtime behavior', () => {
     expect(calls).toEqual([[1, 'x', true]]);
   });
 
-  it('preserves function name and length', () => {
+  it('preserves function length', () => {
     function original(a: number, b: number, c: number) {}
     const bound = bindParams(original, 1);
 
-    expect(bound.name).toBe(original.name);
     expect(bound.length).toBe(Math.max(0, original.length - 1));
   });
 
-  it('supports binding zero args', () => {
+  it('supports binding 0 arg', () => {
     function original(a: number, b: number) {
       return a + b;
     }
